@@ -8,7 +8,7 @@
 // 분모는 1부터 2씩 증가
 // 뺄셈, 덧셈 교차 수행하기 때문에 sign이라는 플래그 변수 사용
 
-int main()
+int main(void)
 {
     bool sign = false;
     double pi = 0;
@@ -31,20 +31,20 @@ int main()
 // 반복문이 실행되면서 연산이 교차되어 실행해야 할 때는 flag를 위한 변수를 선언한다
 // if문에 bool 타입검사하고  true, false를 교차변형시키면서 수행 
 
-#include <stdio.h>
-#include <stdbool.h>
-int main()
-{
-    bool a = true;
-    for (int i = 0; i <10; i ++){
-        if (a){
-            printf("a\n");
-            a = false;
-        }else{
-            printf("not a\n");
-            a = true;
-        }
-    }
-}
+// #include <stdio.h>
+// #include <stdbool.h>
+// int main()
+// {
+//     bool a = true;
+//     for (int i = 0; i <10; i ++){
+//         if (a){
+//             printf("a\n");
+//             a = false;
+//         }else{
+//             printf("not a\n");
+//             a = true;
+//         }
+//     }
+// }
 //이런식으로 a가 true면 if문 실행
 //false면 else문 실행되도록 할 수 있다.
