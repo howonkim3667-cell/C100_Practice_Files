@@ -1,23 +1,92 @@
-//rand()를 이용해 1~6 사이의 주사위 값 하나를 출력하시오
 #include <stdio.h>
 
-int snumsnum(int num);
+struct Person {
+    char name[20];
+    int age;
+};
 
-int main(void){
-    int total = 0;
+typedef struct {
+    char name[20];
+    int age;
+}PS;
+int main() {
+    struct Person p1 = {"홍길동", 30}; // 일반 구조체 변수
+    struct Person *ptr_p1 = &p1;      // 구조체 포인터
+    
+    PS p2 ={"김호원", 30};
+    PS *ptr_ps = &p2;
 
-    for(int i =1; i<100; i++){
-        total += snumsnum(i);
-    }
-    printf("%d", total);
+    // -> 연산자를 사용하여 멤버에 접근
+    printf("이름: %s\n", ptr_p1->name); // (*ptr_p1).name 과 동일 [8, 9]
+    printf("나이: %d\n", ptr_p1->age);   // (*ptr_p1).age 와 동일
+
+    printf("이름: %s\n", ptr_ps->name); // (*ptr_p1).name 과 동일 [8, 9]
+    printf("나이: %d\n", ptr_ps->age);   // (*ptr_p1).age 와 동일
+    
+    
+    char a[] = {"hello"};
+    char *p = a;
+    printf("p[3] : %c", p[3]);
+    printf("*(p+3) : %c", *(p+3));
+    
+    int arr[1] = {100};
+    int *ptr = &arr[0];
+    int i = 1, sum = 0;
+
+    /*
+    * [기본 개념]
+    * - 배열 이름(arr)은 "수정 불가능한 주소 상수"이다.
+    *   → 배열의 시작 주소 자체를 변경할 수 없다.
+    *
+    * - 포인터(ptr)는 "주소를 저장하는 변수"이다.
+    *   → 다른 주소를 대입하거나 변경할 수 있다.
+    *
+    * - 메모리에 저장된 값(arr[0] 등)은 변경 가능하지만,
+    *   배열 이름이 가리키는 시작 주소는 변경할 수 없다.
+    */
+
+    /* ---------------- 배열 이름에 대한 연산 ---------------- */
+
+    // arr++;             
+    // ❌ 불가
+    // 배열 이름은 수정 불가능한 주소 상수이므로
+    // 증가 연산(주소 변경)을 적용할 수 없다.
+
+    // arr = arr + 1;     
+    // ❌ 불가
+    // 배열 이름은 대입 연산의 대상이 될 수 없다.
+    // (주소 상수이므로 값 변경 불가)
+
+    /* ---------------- 포인터 변수에 대한 연산 ---------------- */
+
+    // ptr = arr + 1;     
+    // ✅ 가능
+    // arr은 표현식에서 &arr[0]으로 decay되어 주소 값을 제공하고,
+    // ptr은 주소를 저장하는 변수이므로
+    // 다른 주소(arr + 1)를 가리키도록 변경할 수 있다.
+
+    /*
+    * 정리:
+    * 배열 이름은 lvalue 위치에서는 수정이 불가능하지만,
+    * rvalue 위치에서는 첫 번째 요소의 주소로 decay되어
+    * 주소 값이 필요한 연산에 자유롭게 사용될 수 있다.
+    */
+
+    /* ---------------- 증감 연산자 우선순위 ---------------- */
+
+    // sum += *arr++;     
+    // ❌ 불가
+    // 연산자 우선순위에 의해 *(arr++) 로 해석된다.
+    // arr++는 배열 이름에 대한 증가 연산이므로 컴파일 에러 발생.
+
+    // sum += (*arr)++;   
+    // ✅ 가능
+    // (*arr) == arr[0]
+    // 후위 증가 연산이므로
+    // 1) arr[0]의 기존 값을 sum에 더하고
+    // 2) 이후 arr[0]의 값이 1 증가한다.
+
+    return 0;
 }
 
 
-int snumsnum(int num){
-    int sum = 0;
-    for(int i = 1; i < num; i++){
-        if (num%i == 0){
-            sum+=i;}
-    }
-    return sum;
-}
